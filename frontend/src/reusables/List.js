@@ -1,10 +1,11 @@
 import React from 'react';
 import ListItem from './ListItem';
+// import '../App.css';
 
 const List = ({ items }) => (
-  <ul>
+  <ol className="noBullets">
     {items.map( (item) => <ListItem key={item.id} item={item} />)}
-  </ul>
+  </ol>
 );
 
 export default List;

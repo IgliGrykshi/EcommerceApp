@@ -25,9 +25,18 @@ const formatDate = (date) => {
 
 const ListItem = ({ item }) => (
   <li>
-    Date: {formatDate(item.date)} <br />
+    <div className="card">
+      <span className="otr"></span>
+      <div className="card-body">
+        <h5 className="card-title">{item.face}</h5>
+        <p className="card-text">{item.price}</p>
+        <p className="card-text">{formatDate(item.date)}</p>
+        {/* <a href="" className="btn btn-primary">Go somewhere</a> */}
+      </div>
+    </div>
+    {/* Date: {formatDate(item.date)} <br />
     Price: {item.price} <br />
-    Face: {item.face}
+    Face: {item.face} */}
   </li>
 );
 
