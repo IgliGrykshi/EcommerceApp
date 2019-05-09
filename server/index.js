@@ -8,7 +8,6 @@ function getRandomInRange (min, max) {
     return Math.floor(Math.random() * (max - min)) + min;
 }
 
-
 module.exports = () => {
     const data = { products: [] },
         facesLen = faces.length;
