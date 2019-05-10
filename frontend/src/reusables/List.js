@@ -7,6 +7,8 @@ const adUrl = () => {
 }
 
 const List = ({ items }) => (
+  // Create list of products and show an ad every 20 products.
+  // Show 'end of catalogue' when there are no more products to fetch
   <ol className="noBullets">
     {items.map( (item, index) => {
       return <div>
