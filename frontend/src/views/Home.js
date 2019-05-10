@@ -9,7 +9,7 @@ export default class Home extends React.Component {
       data: [],
       loading: true,
       pageLoaded: false,
-      limit: 0,
+      page: 1,
       sort: "none",
       sortPlaceholder: "none",
       sortHasChanged: false,
@@ -17,25 +17,24 @@ export default class Home extends React.Component {
   }
 
   componentWillMount() {
-
     let pointer = this;
     window.onscroll = function(ev) {
-      if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight && !pointer.state.loading) {
+      if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight && !pointer.state.loading && pointer.state.data.length < 500) {
           // you're at the bottom of the page
-          pointer.setState({loading: true, limit: pointer.state.limit + 20}, () => {
-            pointer.getItems(pointer.state.limit, pointer.state.sort);
+          console.log("pointer.state.data.length", pointer.state.data.length)
+          pointer.setState({loading: true, page: pointer.state.page + 1}, () => {
+            pointer.getItems(pointer.state.page, pointer.state.sort);
           });
       }
     };
-    this.getItems(this.state.limit, this.state.sort);
+    this.getItems(this.state.page, this.state.sort);
     
   }
 
-  getItems = (limit, sortBy) => {
-    console.log("limit: ", limit, "sort:", sortBy);
+  getItems = (page, sortBy) => {
+    console.log("limit: ", page, "sort:", sortBy);
     let pointer = this;
-    // pointer.state.sortHasChanged ? pointer.setState({data: [], limit: 0}) : sortBy = sortBy;
-    let url = sortBy == "none" ? `/api/products?_page=${limit}&_limit=20` : `/api/products?_page=${limit}&_limit=20&_sort=${sortBy}`;
+    let url = sortBy == "none" ? `/api/products?_page=${page}&_limit=20` : `/api/products?_page=${page}&_limit=20&_sort=${sortBy}`;
     console.log("url: ", url);
     axios.get(url)
     .then(function (response) {
@@ -60,9 +59,8 @@ export default class Home extends React.Component {
 
   handleClick = () => {
     let pointer = this;
-    // pointer.state.sortHasChanged ? pointer.setState({data: [], limit: 0}) : sortBy = sortBy;
-    this.setState({sort: this.state.sortPlaceholder, loading: true, data: [], limit: 0}, () => {
-      pointer.getItems(pointer.state.limit, pointer.state.sort)
+    this.setState({sort: this.state.sortPlaceholder, loading: true, data: [], page: 1}, () => {
+      pointer.getItems(pointer.state.page, pointer.state.sort)
     })
   }
 
@@ -82,12 +80,14 @@ export default class Home extends React.Component {
           </div>
         </div>
         <List items={this.state.data} />
-        {this.state.loading ? 
-          <div className="spinner-grow" role="status">
+        {this.state.data.length < 500 ? this.state.loading ? 
+          <div className="spinner-grow mb10" role="status">
             <span className="sr-only">Loading...</span>
           </div>
         :
         ""
+        :
+        null
         }
       </div>
       :

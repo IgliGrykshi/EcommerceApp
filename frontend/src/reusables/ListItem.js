@@ -28,8 +28,8 @@ const ListItem = ({ item }) => (
     <div className="card">
       <span className="otr"></span>
       <div className="card-body">
-        <h5 className="card-title">{item.face}</h5>
-        <p className="card-text">{item.price}</p>
+        <h5 className="card-title" style={{fontSize: item.size}}>{item.face}</h5>
+        <p className="card-text">${item.price/100}</p>
         <p className="card-text">{formatDate(item.date)}</p>
         {/* <a href="" className="btn btn-primary">Go somewhere</a> */}
       </div>
